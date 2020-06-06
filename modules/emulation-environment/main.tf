@@ -25,7 +25,7 @@ resource "docker_container" "fogdevice-environment-emulator" {
   }
   volumes {
     container_path = "/app/emulation-data/"
-    host_path = "/home/elrohil/Magisterka/emulation-data/"
+    host_path = "/home/elrohil/emulation-data/"
   }
   env = [
     "CLIENT_ID=${var.emulation_environment_id}",
