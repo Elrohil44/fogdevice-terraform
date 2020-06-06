@@ -55,7 +55,7 @@ resource "docker_container" "fogdevice_supervisor_api" {
     container_path = "/app/emulation-configs/"
   }
   volumes {
-    host_path = "/home/elrohil/terraform/"
+    host_path = "/home/elrohil/fogdevice-terraform/"
     container_path = "/app/terraform/"
   }
   volumes {
