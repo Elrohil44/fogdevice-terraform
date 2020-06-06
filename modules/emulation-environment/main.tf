@@ -1,5 +1,10 @@
+data "docker_registry_image" "emulation_environment" {
+  name = "elrohil/fogdevice-environment-emulator:latest"
+}
+
 resource "docker_image" "emulation_environment" {
-  name = "elrohil/fogdevice-environment-emulator"
+  name = data.docker_registry_image.emulation_environment.name
+  pull_triggers = [data.docker_registry_image.emulation_environment.sha256_digest]
 }
 
 data "docker_registry_image" "software_emulator" {
@@ -18,10 +23,15 @@ resource "docker_container" "fogdevice-environment-emulator" {
     volume_name = var.emulation_config_volume_name
     container_path = "/app/emulation_configs/"
   }
+  volumes {
+    container_path = "/app/emulation-data/"
+    host_path = "/home/elrohil/Magisterka/emulation-data/"
+  }
   env = [
     "CLIENT_ID=${var.emulation_environment_id}",
     "MQTT_BROKER_URL=mqtt://${var.mqtt_broker}:1883",
-    "CONFIG_PATH=/app/emulation_configs/${var.emulation_environment_id}.json"
+    "CONFIG_PATH=/app/emulation_configs/${var.emulation_environment_id}.json",
+    "DATA_DIR=/app/emulation-data"
   ]
 }
 

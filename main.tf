@@ -13,7 +13,7 @@ resource "docker_network" "frontend" {
 }
 
 data "docker_registry_image" "fogdevice_supervisor_api" {
-  name = "elrohil/fogdevice-supervisor-api:1.0.1"
+  name = "elrohil/fogdevice-supervisor-api:latest"
 }
 
 resource "docker_image" "fogdevice_supervisor_api" {
@@ -55,8 +55,12 @@ resource "docker_container" "fogdevice_supervisor_api" {
     container_path = "/app/emulation-configs/"
   }
   volumes {
-    host_path = "/home/elrohil/Magisterka/terraform"
+    host_path = "/home/elrohil/Magisterka/terraform/"
     container_path = "/app/terraform/"
+  }
+  volumes {
+    host_path = "/var/run/docker.sock"
+    container_path = "/var/run/docker.sock"
   }
   ports {
     internal = 5001
@@ -119,5 +123,12 @@ resource "docker_container" "mongo" {
   }
   networks_advanced {
     name = docker_network.backend.name
+  }
+  networks_advanced {
+    name = docker_network.frontend.name
+  }
+  ports {
+    internal = 27017
+    external = 27017
   }
 }
