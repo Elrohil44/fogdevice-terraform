@@ -22,7 +22,7 @@ resource "docker_image" "fogdevice_supervisor_api" {
 }
 
 data "docker_registry_image" "fogdevice_supervisor_app" {
-  name = "elrohil/fogdevice-supervisor-app:latest"
+  name = "elrohil/fogdevice-supervisor-app:production"
 }
 
 resource "docker_image" "fogdevice_supervisor_app" {
